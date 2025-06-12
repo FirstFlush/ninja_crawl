@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Environments
+.env
+.env.local
+.venv/
+venv/
+env/
+ENV/
+*.env
+
+# FastAPI + Uvicorn logs
+*.log
+
+# Coverage and testing
+.coverage
+htmlcov/
+coverage.xml
+.cache/
+.pytest_cache/
+
+# VSCode and other IDE/editor settings
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter (in case you do data testing)
+.ipynb_checkpoints
+
+# Mypy and linting
+.mypy_cache/
+.pytype/
+pylint-report.txt
+
+# Packaging
+build/
+dist/
+*.egg-info/
+
+# Wheels
+*.whl
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker
+*.pid
+docker-compose.override.yml
+
+# PyInstaller
+*.spec
+
