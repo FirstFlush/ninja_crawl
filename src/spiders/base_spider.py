@@ -6,6 +6,9 @@ import pdfplumber
 from typing import Any
 from ..enums.spider_keys import SpiderKeys
 from ..exc import SpiderError
+from ..engine.engines.base import BaseEngine, DefaultEngine
+from ..engine.engines.html import HtmlEngine
+from ..engine.engines.pdf import PdfEngine
 
 
 logger = logging.getLogger(__file__)
@@ -36,7 +39,7 @@ class BaseSpider(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def parse_data(self, data: str | bytes):
+    def get_engine(self, data: str | bytes) -> BaseEngine:
         raise NotImplementedError
 
     @abstractmethod
@@ -48,11 +51,14 @@ class HtmlSpider(BaseSpider):
     
     css = CssSelectors
     
-    def parse_data(self, data: str) -> BeautifulSoup:
+    def get_engine(self, data: str) -> HtmlEngine:
         if not isinstance(data, str):
             msg = f"{self.__class__.__name__} expected HTML data as a string, but received type `{type(data)}`"
             logger.error(msg)
             raise SpiderError(msg)
+        return HtmlEngine(soup=self._get_soup(data=data))
+        
+    def _get_soup(self, data: str) -> BeautifulSoup:
         try:
             return BeautifulSoup(data, "lxml")
         except Exception as e:
@@ -64,13 +70,22 @@ class HtmlSpider(BaseSpider):
         logger.debug(f"{self.__class__.__name__} has nothing to clean up")
 
 
+class JsonSpider(BaseSpider):
+
+    def get_engine(self, data: dict[str, Any]) -> DefaultEngine:
+        return DefaultEngine(data)
+
+    def clean_up(self):
+        logger.debug(f"{self.__class__.__name__} has nothing to clean up")
+
+
 class PdfSpider(BaseSpider):
     
     def __init__(self, metadata: dict[str, Any] | None = None):
         super().__init__(metadata=metadata)
         self._open_pdfs: list[pdfplumber.pdf.PDF] = []
     
-    def parse_data(self, data: bytes) -> pdfplumber.pdf.PDF:
+    def _open_pdf(self, data: bytes) -> pdfplumber.pdf.PDF:
         try:
             pdf = pdfplumber.open(io.BytesIO(data))
         except Exception as e:
@@ -80,6 +95,10 @@ class PdfSpider(BaseSpider):
         else:
             self._open_pdfs.append(pdf)
             return pdf
+
+    def get_engine(self, data: bytes) -> PdfEngine:
+        pdf = self._open_pdf(data)
+        return PdfEngine(pdf=pdf)
 
     def clean_up(self):
         for pdf in self._open_pdfs:

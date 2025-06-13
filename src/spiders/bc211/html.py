@@ -15,8 +15,8 @@ class BC211SearchSpider(HtmlSpider):
     
     def scrape(self, raw_data: str, key: str) -> dict[str, Any]:
         
-        soup = self.parse_data(raw_data)
-        results = soup.select(self.css.result)
+        engine = self.get_engine(raw_data)
+        results = engine.soup.select(self.css.result)
         print(results)
         
         
