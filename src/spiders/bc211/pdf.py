@@ -3,7 +3,7 @@ from ...enums.spider_keys import SpiderKeys
 
 class BC211PdfSpider(PdfSpider):
     
-    KEY = [SpiderKeys.BC211_PDF]
+    KEYS = [SpiderKeys.BC211_PDF]
     
-    def scrape(self, data: bytes):
-        self.parse_data(data)
+    def scrape(self, raw_data: bytes, key: str):
+        self.parse_data(raw_data)

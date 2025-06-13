@@ -11,9 +11,17 @@ from ..exc import SpiderError
 logger = logging.getLogger(__file__)
 
 
+class CssSelectors:
+    body = "body"
+    html = "html"
+
+
 class BaseSpider(ABC):
     
     KEYS: list[SpiderKeys] | None = None
+
+    def __init__(self, metadata: dict[str, Any] | None = None):
+        self.metadata = metadata 
 
     @classmethod
     def check_keys(cls, key: str) -> bool:
@@ -24,7 +32,7 @@ class BaseSpider(ABC):
         return key.strip() in [k.value for k in cls.KEYS]
 
     @abstractmethod
-    def scrape(self, data: str | bytes) -> dict[str, Any]:
+    def scrape(self, raw_data: str | bytes, key: str) -> dict[str, Any]:
         raise NotImplementedError
 
     @abstractmethod
@@ -37,6 +45,8 @@ class BaseSpider(ABC):
 
 
 class HtmlSpider(BaseSpider):
+    
+    css = CssSelectors
     
     def parse_data(self, data: str) -> BeautifulSoup:
         if not isinstance(data, str):
@@ -56,7 +66,8 @@ class HtmlSpider(BaseSpider):
 
 class PdfSpider(BaseSpider):
     
-    def __init__(self):
+    def __init__(self, metadata: dict[str, Any] | None = None):
+        super().__init__(metadata=metadata)
         self._open_pdfs: list[pdfplumber.pdf.PDF] = []
     
     def parse_data(self, data: bytes) -> pdfplumber.pdf.PDF:
@@ -69,7 +80,7 @@ class PdfSpider(BaseSpider):
         else:
             self._open_pdfs.append(pdf)
             return pdf
-        
+
     def clean_up(self):
         for pdf in self._open_pdfs:
             logger.debug(f"{self.__class__.__name__}: closing open pdf")
