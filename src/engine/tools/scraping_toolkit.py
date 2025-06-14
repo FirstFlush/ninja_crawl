@@ -1,4 +1,4 @@
-from .currency import CurrencyParser
+from .currency.currency_parser import CurrencyParser
 from .datetime_util.datetime_util import DateTimeUtil
 from .enum_toolkit import EnumToolkit 
 from .region.region_matcher import RegionMatcher
@@ -8,7 +8,7 @@ from .text_toolkit import TextToolkit
 from .types import TypeTransformer
 
 
-class ScrapingTools:
+class ScrapingToolkit:
     
     def __init__(self):
         self.contact = ContactSniffer(self)
@@ -19,4 +19,3 @@ class ScrapingTools:
         self.region = RegionMatcher(self)
         self.text = TextToolkit(self)
         self.types = TypeTransformer(self)
-        

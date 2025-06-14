@@ -5,12 +5,12 @@ from.email import EmailSniffer
 from.phone import PhoneSniffer
 
 if TYPE_CHECKING:
-    from ..scraping_tools import ScrapingTools
+    from ..scraping_toolkit import ScrapingToolkit
 
 
 class ContactSniffer(BaseTool):
     
-    def __init__(self, tools: "ScrapingTools"):
+    def __init__(self, tools: "ScrapingToolkit"):
         self.tools = tools
         self.address = AddressSniffer(self.tools)
         self.email = EmailSniffer(self.tools)

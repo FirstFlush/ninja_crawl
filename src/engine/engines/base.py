@@ -1,11 +1,11 @@
 from abc import ABC
 from typing import Any
-from ..tools.scraping_tools import ScrapingTools
+from ..tools.scraping_toolkit import ScrapingToolkit
 
 
 class BaseEngine(ABC):
     
-    tools = ScrapingTools()
+    tools = ScrapingToolkit()
 
 
 class DefaultEngine(BaseEngine):
