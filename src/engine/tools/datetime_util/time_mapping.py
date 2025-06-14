@@ -1,5 +1,7 @@
+from ..base import BaseSubstringMapping
 
-class TimeMapping:
+
+class TimeMapping(BaseSubstringMapping):
 
     CLOCK_TIMES = {
         # 12-hour clock time mappings (every 15 minutes)
@@ -78,16 +80,3 @@ class TimeMapping:
             "afterhours", "endofday", "beforemidnight",
         },
     }
-
-    @staticmethod
-    def get_key(text: str, mapping: dict[str, set]) -> str | None:
-        for k, v in mapping.items():
-            if any(s in text for s in v):
-                return k
-
-    @staticmethod
-    def get_key_with_match(text: str, mapping: dict[str, set]) -> tuple[str, str] | None:
-        for k, v in mapping.items():
-            for time_str in v:
-                if time_str in text:
-                    return k, time_str
