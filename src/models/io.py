@@ -5,7 +5,7 @@ from typing import Any, Optional
 class ScrapeRequest(BaseModel):
     
     spider_key: str
-    raw_data: str | bytes
+    raw_data: Any
     metadata: Optional[dict[str, Any]] = None
 
 

@@ -35,7 +35,7 @@ class BaseSpider(ABC):
         return key.strip() in [k.value for k in cls.KEYS]
 
     @abstractmethod
-    def scrape(self, raw_data: str | bytes, key: str) -> dict[str, Any]:
+    def scrape(self, raw_data: str | bytes | dict[str, Any] | list[dict[str, Any]], key: str) -> dict[str, Any]:
         raise NotImplementedError
 
     @abstractmethod
