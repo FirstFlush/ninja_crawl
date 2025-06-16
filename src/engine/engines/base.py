@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Any
+from ...common.types import JsonData
 from ..tools.scraping_toolkit import ScrapingToolkit
 
 
@@ -8,7 +8,7 @@ class BaseEngine(ABC):
     tools = ScrapingToolkit()
 
 
-class DefaultEngine(BaseEngine):
+class JsonEngine(BaseEngine):
 
-    def __init__(self, data: dict[str, Any]):
+    def __init__(self, data: JsonData):
         self.data = data

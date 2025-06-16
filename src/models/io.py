@@ -1,11 +1,11 @@
 from pydantic import BaseModel
 from typing import Any, Optional
-
+from ..common.types import JsonData
 
 class ScrapeRequest(BaseModel):
     
     spider_key: str
-    raw_data: Any
+    raw_data: str | bytes | JsonData
     metadata: Optional[dict[str, Any]] = None
 
 

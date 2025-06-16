@@ -1,18 +1,20 @@
 from abc import ABC, abstractmethod
+import base64
 from bs4 import BeautifulSoup
 import io
 import logging
 import pdfplumber
 from typing import Any
-from ..enums.spider_keys import SpiderKeys
+from ..common.enums.spider_keys import SpiderKeys
+from ..common.types import JsonData
 from ..exc import SpiderError
-from ..engine.engines.base import BaseEngine, DefaultEngine
+from ..engine.engines.base import BaseEngine, JsonEngine
 from ..engine.engines.html import HtmlEngine
 from ..engine.engines.pdf import PdfEngine
 
 
 logger = logging.getLogger(__file__)
-
+logging.getLogger("pdfminer").setLevel(logging.WARNING)
 
 class CssSelectors:
     body = "body"
@@ -72,8 +74,8 @@ class HtmlSpider(BaseSpider):
 
 class JsonSpider(BaseSpider):
 
-    def get_engine(self, data: dict[str, Any]) -> DefaultEngine:
-        return DefaultEngine(data)
+    def get_engine(self, data: JsonData) -> JsonEngine:
+        return JsonEngine(data)
 
     def clean_up(self):
         logger.debug(f"{self.__class__.__name__} has nothing to clean up")
@@ -96,7 +98,10 @@ class PdfSpider(BaseSpider):
             self._open_pdfs.append(pdf)
             return pdf
 
-    def get_engine(self, data: bytes) -> PdfEngine:
+    def get_engine(self, data: str | bytes) -> PdfEngine:
+        if isinstance(data, str):
+            logger.debug(f"{self.__class__.__name__}.get_engine() received data of type str. Converting to bytes..")
+            data = base64.b64decode(data)
         pdf = self._open_pdf(data)
         return PdfEngine(pdf=pdf)
 

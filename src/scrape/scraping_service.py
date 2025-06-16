@@ -1,10 +1,8 @@
 import logging
 from typing import Any
-from ..exc import ScrapingServiceError, SpiderError
-from ..enums.spider_keys import SpiderKeys
-from ..models.io import ScrapeResponse
-from .registry import SpiderRegistry
+from ..exc import SpiderError
 from ..spiders.base_spider import BaseSpider
+from ..common.types import JsonData
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +13,7 @@ class ScrapingService:
         self.key = key
         self.spider = spider
 
-    def run_scrape(self, raw_data: str | bytes | dict[str, Any] | list[dict[str, Any]]) -> dict[str, Any] | None:
+    def run_scrape(self, raw_data: str | bytes | JsonData) -> dict[str, Any] | None:
         try:
             logger.debug(f"{self.spider.__class__.__name__} starting scrape...")
             scraped_data = self._scrape(raw_data)
@@ -32,7 +30,7 @@ class ScrapingService:
             
         return scraped_data
         
-    def _scrape(self, raw_data: str | bytes | dict[str, Any] | list[dict[str, Any]]) -> dict[str, Any]:
+    def _scrape(self, raw_data: str | bytes | JsonData) -> dict[str, Any]:
         try:
             return self.spider.scrape(raw_data=raw_data, key=self.key)
         finally:
