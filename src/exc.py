@@ -9,11 +9,11 @@ class ScrapingServiceError(NinjaCrawlError):
     pass
 
 
-class SpiderError(NinjaCrawlError):
+class TransformerError(NinjaCrawlError):
     """Raised when a Spider class fails for any reason"""
     pass
 
 
-class SpiderRegistryError(NinjaCrawlError):
+class TransformerRegistryError(NinjaCrawlError):
     """Raised when the SpiderRegistry fails to find and instantiate the requested spider."""
     pass

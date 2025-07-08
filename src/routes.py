@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Response, status
 from .models.io import ScrapeRequest
-from .exc import NinjaCrawlError, SpiderRegistryError
+from .exc import NinjaCrawlError, TransformerRegistryError
 from .scrape.scraping_service import ScrapingService
-from .scrape.registry import SpiderRegistry
+from .scrape.registry import TransformerRegistry
 from .scrape.scrape_io import ScrapeIO
 import logging
 
@@ -24,13 +24,13 @@ def scrape(req: ScrapeRequest):
     scrape_io.start_timer()
     error = None
     try:
-        spider = SpiderRegistry.get_spider(
+        transformer = TransformerRegistry.get_transformer(
             key=req.spider_key, 
             metadata=req.metadata,
         )
         service = ScrapingService(
             key=req.spider_key, 
-            spider=spider
+            transformer=transformer,
         )
     except NinjaCrawlError as e:
         scraped_data = None
