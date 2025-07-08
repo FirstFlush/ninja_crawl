@@ -6,7 +6,7 @@ from ..exc import TransformerError
 from ..common.types.types import JsonType
 
 
-from ..engine.scraping_toolkit import ScrapingEngine
+from ..engine.scraping_engine import ScrapingEngine
 
 logger = logging.getLogger(__file__)
 logging.getLogger("pdfminer").setLevel(logging.WARNING)

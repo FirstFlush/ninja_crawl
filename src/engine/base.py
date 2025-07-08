@@ -3,7 +3,7 @@ from typing import Any, TYPE_CHECKING
 
 
 if TYPE_CHECKING:
-    from .scraping_toolkit import ScrapingEngine
+    from .scraping_engine import ScrapingEngine
 
 
 class BaseEngine(ABC):

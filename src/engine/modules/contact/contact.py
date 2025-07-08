@@ -5,7 +5,7 @@ from.email import EmailSniffer
 from.phone import PhoneSniffer
 
 if TYPE_CHECKING:
-    from ...scraping_toolkit import ScrapingEngine
+    from ...scraping_engine import ScrapingEngine
 
 
 class ContactSniffer(BaseEngine):
