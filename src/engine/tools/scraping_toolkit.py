@@ -1,6 +1,7 @@
 from .currency.currency_parser import CurrencyParser
 from .datetime_util.datetime_util import DateTimeUtil
 from .enum_toolkit import EnumToolkit 
+from .pdf_toolkit import PdfToolkit
 from .region.region_matcher import RegionMatcher
 from .regex.regex import RegexTool
 from .contact.contact import ContactSniffer
@@ -15,6 +16,7 @@ class ScrapingToolkit:
         self.currency = CurrencyParser(self)
         self.date = DateTimeUtil(self)
         self.enum = EnumToolkit(self)
+        self.pdf = PdfToolkit(self)
         self.regex = RegexTool(self)
         self.region = RegionMatcher(self)
         self.text = TextToolkit(self)

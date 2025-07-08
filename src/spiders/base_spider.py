@@ -96,13 +96,15 @@ class PdfSpider(BaseSpider):
             raise SpiderError(msg) from e
         else:
             self._open_pdfs.append(pdf)
+            logger.debug("Opened PDF in memory with pdfplumber")
             return pdf
 
     def get_engine(self, data: str | bytes) -> PdfEngine:
         if isinstance(data, str):
-            logger.debug(f"{self.__class__.__name__}.get_engine() received data of type str. Converting to bytes..")
+            logger.debug(f"{self.__class__.__name__}.get_engine() received binary data as base64. Decoding to bytes..")
             data = base64.b64decode(data)
         pdf = self._open_pdf(data)
+        
         return PdfEngine(pdf=pdf)
 
     def clean_up(self):

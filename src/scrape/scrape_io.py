@@ -28,19 +28,6 @@ class ScrapeIO:
         self._start = time.monotonic()
         logger.debug("Scraping timer started")
 
-    # def process_response(
-    #         self,
-    #         scraped_data: dict[str, Any] | None,
-    #         elapsed_ms: int,
-    #         error: Exception | None = None
-    # ) -> ScrapeResponse:
-    #     elapsed_ms = elapsed_ms
-    #     return self._build_response(
-    #         scraped_data=scraped_data,
-    #         elapsed_ms=elapsed_ms,
-    #         error=error,
-    #     )
-
     def stop_timer(self) -> int:
         if self._start is None:
             logger.error(f"{self.__class__.__name__}._start is None. elapsed_ms defaulting to 0")

@@ -36,6 +36,7 @@ def scrape(req: ScrapeRequest):
         scraped_data = None
         error = e
     except Exception as e:
+        scraped_data = None
         logger.error(f"Unhandled `{e.__class__.__name__ }` in scrape route. scraped_data=None", exc_info=True)
         error = e
     else:

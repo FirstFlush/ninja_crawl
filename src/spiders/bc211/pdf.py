@@ -6,9 +6,10 @@ class BC211PdfSpider(PdfSpider):
     
     KEYS = [SpiderKeys.BC211_PDF]
     
-    def scrape(self, raw_data: bytes, key: str):
-        
+    def scrape(self, raw_data: str, key: str):
+                
         engine = self.get_engine(raw_data)
+        print(type(raw_data))
         
         return {
             "hi":"bye"
